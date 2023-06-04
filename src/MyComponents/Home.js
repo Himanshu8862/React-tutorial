@@ -1,23 +1,21 @@
 import { useState } from "react";
 
 const Home = () => {
-    const [name, setName] = useState("John")
-    const [age, setAge] = useState(25)
-    const [array, setArray] = useState([4,2,6,8,7,9])
+    const [blogs, setBlogs] = useState([
+        { title: 'My new website', body: 'lorem ipsum...', author: 'mario', id: 1 },
+        { title: 'Welcome party!', body: 'lorem ipsum...', author: 'yoshi', id: 2 },
+        { title: 'Web dev top tips', body: 'lorem ipsum...', author: 'mario', id: 3 }
+    ])
 
-    const handleClick = (e) => {
-        setName("Alice")
-        setAge(20)
-        setArray(()=>{
-            return array.sort()
-        })
-    }
     return (
         <div className="home">
-            <h2>Homepage</h2>
-            <p>{name} is {age} years old</p>
-            <p>{array}</p>
-            <button onClick={handleClick}>Click me</button>
+            {blogs.map((blog) =>(
+                //  the key should be unique and always has to be added, so that react can keep tract of each item that it outputs into the dom
+                <div className="blog-preview" key={blog.id}>
+                    <h2>{blog.title}</h2>
+                    <p>Written by {blog.author}</p>
+                </div>
+            ))}
         </div>
     );
 }
