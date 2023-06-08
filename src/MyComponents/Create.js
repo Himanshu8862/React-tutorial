@@ -4,11 +4,23 @@ const Create = () => {
     const [title, setTitle] = useState("");
     const [body, setBody] = useState("");
     const [author, setAuthor] = useState("mario");
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault()
         const newBlog = { title, body, author }
-        console.log(newBlog);
+        setIsLoading(true)
+
+        // json server itself gives the new data an id, so we dont need to do it mannualy
+        fetch("http://localhost:8000/blogs", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(newBlog)
+        })
+        .then(()=>{
+            console.log("new blog added");
+            setIsLoading(false);
+        })
     }
 
     return (
@@ -36,10 +48,9 @@ const Create = () => {
                     <option value="mario">mario</option>
                     <option value="yoshi">yoshi</option>
                 </select>
-                <button>Add Blog</button>
-                <p>{title}</p>
-                <p>{body}</p>
-                <p>{author}</p>
+                {!isLoading && <button>Add Blog</button>}
+                {isLoading && <button disabled>Adding Blog...</button>}
+
             </form>
         </div>
     )
